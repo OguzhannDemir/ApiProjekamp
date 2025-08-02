@@ -1,8 +1,11 @@
 ﻿using ApiProjeKamp.WebApi.Context;
+using ApiProjeKamp.WebApi.Dtos.ProductDtos;
 using ApiProjeKamp.WebApi.Entities;
+using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace ApiProjeKamp.WebApi.Controllers
 {
@@ -12,11 +15,12 @@ namespace ApiProjeKamp.WebApi.Controllers
     {
         private readonly IValidator<Product> _validator;
         private readonly ApiContext _context;
+        private readonly IMapper _mapper;
 
-
-        public ProductsController(IValidator<Product> validator)
+        public ProductsController(IValidator<Product> validator, ApiContext context, IMapper mapper)
         {
             _validator = validator;
+            _context = context;
         }
 
         [HttpGet]
@@ -29,22 +33,67 @@ namespace ApiProjeKamp.WebApi.Controllers
         public IActionResult CreateProduct(Product product)
         {
             var validationResult = _validator.Validate(product);
-            
+
             if (!validationResult.IsValid)
             {
-                return BadRequest(validationResult.Errors);
+                return BadRequest(validationResult.Errors.Select(x => x.ErrorMessage));
             }
+            else
 
-            _context.Products.Add(product);
-            _context.SaveChanges();
-            return Ok("Ürün Başarıyla Eklendi.");
-
+            {
+                _context.Products.Add(product);
+                _context.SaveChanges();
+                return Ok("Ürün Başarıyla Eklendi.");
+            }
         }
 
+        [HttpDelete]
+        public IActionResult DeleteProduct(int id)
+        {
+            var value = _context.Products.Find(id);
+            _context.Products.Remove(value);
+            _context.SaveChanges();
+            return Ok("Ürün Başarıyla Silindi.");
+        }
 
+        [HttpGet("GetProduct")]
+        public IActionResult GetProduct(int id)
+        {
+            var value = _context.Products.Find(id);
+            return Ok(value);
+        }
 
+        [HttpPut]
+        public IActionResult UpdateProduct(Product product)
+        {
+            var validationResult = _validator.Validate(product);
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors.Select(x => x.ErrorMessage));
+            }
+            else
+            {
+                _context.Products.Update(product);
+                _context.SaveChanges();
+                return Ok("Ürün Başarıyla Güncellendi.");
+            }
+        }
 
+        [HttpPost("CreateProductWithCategory")]
+        public IActionResult CreateProductWithCategory(CreateProductDto createProductDto)
+        {
+            var values = _mapper.Map<Product>(createProductDto);
+            _context.Products.Add(values);
+            _context.SaveChanges();
+            return Ok("Ürün Başarıyla Eklendi.");
+        }
 
+        [HttpGet("ProductListWithCatgory")]
+        public IActionResult ProductListWithCatgory()
+        {
+            var values = _context.Products.Include(x => x.Category).ToList();
+            return Ok(_mapper.Map<List<ResultProductWithCategoryDto>>(values));
+        }
 
 
     }
