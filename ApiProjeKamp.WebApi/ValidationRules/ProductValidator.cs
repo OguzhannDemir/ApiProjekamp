@@ -13,7 +13,6 @@ namespace ApiProjeKamp.WebApi.ValidationRules
             RuleFor(x => x.ProductName).MaximumLength(50).WithMessage("Ürün Adı En Fazla 50 Karakter Olmalıdır.");
             RuleFor(x => x.Price).NotEmpty().WithMessage("Ürün Fiyatı Boş Geçilemez.");
             RuleFor(x => x.Price).GreaterThan(0).WithMessage("Ürün Fiyatı 0'dan Büyük Olmalıdır.");
-            RuleFor(x => x.ProductDescription).NotEmpty().WithMessage("Ürün Açıklaması Boş Geçilemez.");
 
         }
 
