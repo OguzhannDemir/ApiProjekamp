@@ -73,7 +73,17 @@ namespace ApiProjeKamp.WebApi.Controllers
             return Ok("Mesaj Başarıyla Güncellendi.");
         }
 
+        [HttpGet("MessageListByIsReadFalse")]
+        public IActionResult MessageListByIsReadFalse()
+        {
+            var values = _context.Messages.Where(x => x.IsRead == "False").ToList();
+            if (values.Count == 0)
+            {
+                return NotFound("Okunmamış Mesaj Bulunamadı.");
+            }
+            return Ok(_mapper.Map<List<ResaultMessageDto>>(values));
 
+        }
 
 
 

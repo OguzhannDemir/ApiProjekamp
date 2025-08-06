@@ -44,7 +44,7 @@ namespace ApiProjeKamp.WebApi.Controllers
             return Ok("Silme Başarılı.");
         }
 
-        [HttpGet("GetByIdFeature")]
+        [HttpGet("{id}")]
         public IActionResult GetByIdFeature(int id)
         {
             var value = _context.Features.Find(id);

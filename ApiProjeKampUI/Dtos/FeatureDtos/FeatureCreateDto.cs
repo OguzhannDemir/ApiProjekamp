@@ -1,0 +1,14 @@
+﻿namespace ApiProjeKampUI.Dtos.FeatureDtos
+{
+    public class FeatureCreateDto
+    {
+   
+        public string Title { get; set; }
+        public string SubTitle { get; set; }
+        public string Description { get; set; }
+        public string Videourl { get; set; }
+        public string ImageUrl { get; set; }
+
+
+    }
+}

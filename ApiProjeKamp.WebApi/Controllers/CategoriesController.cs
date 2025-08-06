@@ -1,5 +1,7 @@
 ﻿using ApiProjeKamp.WebApi.Context;
+using ApiProjeKamp.WebApi.Dtos.CategoryDtos;
 using ApiProjeKamp.WebApi.Entities;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,9 +13,11 @@ namespace ApiProjeKamp.WebApi.Controllers
     {
 
         private readonly ApiContext _context;
-        public CategoriesController(ApiContext context)
+        private readonly IMapper _mapper;
+        public CategoriesController(ApiContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
 
@@ -25,9 +29,11 @@ namespace ApiProjeKamp.WebApi.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateCategory(Category category)
+        public IActionResult CreateCategory(CreateCategoryDto createCategoryDto)
         {
-            _context.Categories.Add(category);
+
+            var value = _mapper.Map<Category>(createCategoryDto);
+            _context.Categories.Add(value);
             _context.SaveChanges();
             return Ok("Ekleme İşlemi Başarılı.");
         }
@@ -57,9 +63,10 @@ namespace ApiProjeKamp.WebApi.Controllers
         }
 
         [HttpPut]
-        public IActionResult UpdateCategory(int id, Category category)
+        public IActionResult UpdateCategory(CategoryUpdateDto categoryUpdateDto)
         {
-            _context.Categories.Update(category);
+            var value = _mapper.Map<Category>(categoryUpdateDto);
+            _context.Categories.Update(value);
             _context.SaveChanges();
             return Ok("Güncelleme İşlemi Başarılı.");
         }

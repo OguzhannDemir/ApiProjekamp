@@ -13,7 +13,6 @@ builder.Services.AddScoped<IValidator<Product>,ProductValidator>(); // FluentVal
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());//Bu satýr sayesinde, projenizde tanýmlý tüm AutoMapper profilleri otomatik olarak yüklenir ve uygulamanýn her yerinde kullanýlabilir hale gelir.
 
 
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

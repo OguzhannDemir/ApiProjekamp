@@ -1,0 +1,52 @@
+﻿@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+    @await Component.InvokeAsync("_HeadAdminLayoutComponentPartial")
+
+
+<body>
+    <div class="loader"></div>
+    <div id="app">
+        <div class="main-wrapper main-wrapper-1">
+            <div class="navbar-bg"></div>
+
+            @await Component.InvokeAsync("_NavbarAdminLayoutComponentPartial")
+
+            @await Component.InvokeAsync("_SidebarAdminLayoutComponentPartial")
+
+
+
+            <!-- Main Content -->
+            <div class="main-content">
+                @await Component.InvokeAsync("_RightSettingsAdminLayoutComponentPartial")
+                @RenderBody()
+
+             
+            </div>
+            <footer class="main-footer">
+                <div class="footer-left">
+                    <a href="templateshub.net"></a></a>
+                </div>
+                <div class="footer-right">
+                </div>
+            </footer>
+        </div>
+    </div>
+    <!-- General JS Scripts -->
+    <script src="/Dashboard/assets/js/app.min.js"></script>
+    <!-- JS Libraies -->
+    <!-- Page Specific JS File -->
+    <!-- Template JS File -->
+    <script src="/Dashboard/assets/js/scripts.js"></script>
+    <!-- Custom JS File -->
+    <script src="/Dashboard/assets/js/custom.js"></script>
+</body>
+
+</html>

@@ -55,9 +55,13 @@ namespace ApiProjeKamp.WebApi.Controllers
         public IActionResult DeleteProduct(int id)
         {
             var value = _context.Products.Find(id);
+            if (value == null)
+            {
+                return NotFound();
+            }
             _context.Products.Remove(value);
             _context.SaveChanges();
-            return Ok("Ürün Başarıyla Silindi.");
+            return Ok("Silme İşlemi Başarılı.");
         }
 
 
